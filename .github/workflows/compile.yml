@@ -406,6 +406,11 @@ jobs:
       matrix:
         os: [ubuntu-22.04, windows-2022]
         cuda: ['12.4.0', '13.0.0']
+        include:
+          - cuda: '12.4.0'
+            win-sub-packages: '["nvcc", "cudart", "cublas", "cublas_dev", "thrust", "visual_studio_integration"]'
+          - cuda: '13.0.0'
+            win-sub-packages: '["nvcc", "crt", "nvvm", "cudart", "cublas", "cublas_dev", "thrust", "visual_studio_integration"]'
     runs-on: ${{ matrix.os }}
     steps:
       - name: Clone
@@ -422,7 +427,7 @@ jobs:
         with:
           cuda: ${{ matrix.cuda }}
           method: 'network'
-          sub-packages: '["nvcc", "cudart", "cublas", "cublas_dev", "thrust", "visual_studio_integration"]'
+          sub-packages: ${{ matrix.win-sub-packages }}
 
       - uses: Jimver/cuda-toolkit@v0.2.36
         if: runner.os == 'Linux'
