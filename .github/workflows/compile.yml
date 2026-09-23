@@ -416,34 +416,17 @@ jobs:
           fetch-depth: 0
           ref: '${{ github.event.inputs.llama_cpp_commit }}'
 
-      - uses: Jimver/cuda-toolkit@v0.2.15
-        if: runner.os == 'Windows' && matrix.cuda == '12.4.0'
+      - uses: Jimver/cuda-toolkit@v0.2.36
+        if: runner.os == 'Windows'
         id: cuda-toolkit-windows
         with:
           cuda: ${{ matrix.cuda }}
           method: 'network'
           sub-packages: '["nvcc", "cudart", "cublas", "cublas_dev", "thrust", "visual_studio_integration"]'
 
-      - uses: Jimver/cuda-toolkit@v0.2.15
-        if: runner.os == 'Linux' && matrix.cuda == '12.4.0'
+      - uses: Jimver/cuda-toolkit@v0.2.36
+        if: runner.os == 'Linux'
         id: cuda-toolkit-linux
-        with:
-          cuda: ${{ matrix.cuda }}
-          method: 'network'
-          linux-local-args: '["--toolkit"]'
-
-      - uses: Jimver/cuda-toolkit@v0.2.36
-        if: runner.os == 'Windows' && matrix.cuda != '12.4.0'
-        id: cuda-toolkit-windows-13
-        with:
-          cuda: ${{ matrix.cuda }}
-          method: 'network'
-          sub-packages: '["nvcc", "cudart", "cublas", "cublas_dev", "thrust", "visual_studio_integration"]'
-          use-github-cache: false
-
-      - uses: Jimver/cuda-toolkit@v0.2.36
-        if: runner.os == 'Linux' && matrix.cuda != '12.4.0'
-        id: cuda-toolkit-linux-13
         with:
           cuda: ${{ matrix.cuda }}
           method: 'network'
